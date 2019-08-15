@@ -1,17 +1,14 @@
 package com.mabrouk.jsoupexample;
 
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +25,43 @@ public class MainActivity extends AppCompatActivity {
         // image details
         // src: ul > li.ContentText > div.container > h2.Title
 
-        new ShowsAsync().execute();
+        new ShowDetailsAsync().execute();
+    }
+
+    private static class ShowDetailsAsync extends AsyncTask<Void, Void, Void> {
+        Document document;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                document = Jsoup.connect("http://www.natgeotv.com/ae/animal-fight-club").get();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            Log.v("tagg", document.title());
+
+            // get show title
+            Log.v("tagg", document.select("div.MasterContentDiv.WithBanner > div.MainContentDiv > div.ShowsMasterHeader > ul.ShowTextArea > li:nth-child(1) > h1").text());
+
+            // get show time
+            Log.v("tagg", document.select("div.MasterContentDiv.WithBanner > div.MainContentDiv > div.ShowsMasterHeader > ul.ShowTextArea > li#Schedule > span").text());
+
+
+        }
     }
 
     private static class ShowsAsync extends AsyncTask<Void, Void, Void> {
@@ -45,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
 
             try {
-                Document document = Jsoup.connect("http://www.natgeotv.com/ae/listings").get();
+                Document document = Jsoup.connect("http://www.natgeotv.com/ae/listings/ngc/190819").get();
 
                 pageTitle = document.title();
 
                 showsContainers = document.select("div.MasterContentDiv.WithBanner > div.MainContentDiv > div.PageContent > ul#ScheduleList > li.ScheduleDayPeriodSeparator");
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -62,19 +95,19 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
 
             Log.v("tagg", pageTitle);
-            Log.v("tagg", showsContainers.size()+"");
+            Log.v("tagg", showsContainers.size() + "");
 
             Elements showsElements;
-            for(Element e : showsContainers){
+            for (Element e : showsContainers) {
                 // get day period title
                 Log.v("tagg", e.select("div.ScheduleDayPeriod > h3").text());
                 Log.v("tagg", "=============================================");
 
                 showsElements = e.select("ul.FloatLeft > li");
 
-                for(Element el : showsElements){
+                for (Element el : showsElements) {
                     //TODO: check if show has hyperlink (show details)
-                    
+
                     // get show title
                     Log.v("tagg", el.select("ul > li.ScheduleDayTitle > a > span:nth-child(1)").text());
                     // get show sub-title
@@ -110,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
                 images = document.select("div.MasterContentDiv.WithBanner > div.MainContentDiv > div.MainPanel > div.Carousel > ul > li");
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -121,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
 
             Log.v("tagg", pageTitle);
-            Log.v("tagg", images.size()+"");
+            Log.v("tagg", images.size() + "");
 
-            for(Element e : images){
+            for (Element e : images) {
                 // get image text
                 Log.v("tagg", e.select("ul > li.ContentText > div.container > h2.Title").text());
                 // get image link
