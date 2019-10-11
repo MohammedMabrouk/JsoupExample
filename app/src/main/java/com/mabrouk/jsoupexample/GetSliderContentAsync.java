@@ -47,6 +47,7 @@ public class GetSliderContentAsync extends AsyncTask<Void, Void, Void> {
 
             images = document.select("div.MasterContentDiv.WithBanner > div.MainContentDiv > div.MainPanel > div.Carousel > ul > li");
 
+            Log.v("dsds","dsds");
         } catch (Exception e) {
             e.printStackTrace();
         }
