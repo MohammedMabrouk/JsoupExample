@@ -41,7 +41,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SlideViewH
 
         if (imagesUrlList.get(position) != null && !imagesUrlList.get(position).isEmpty()) {
                 Picasso.get().load(imagesUrlList.get(position))
-//                        .error(context.getResources().getDrawable(R.drawable.car_placeholder))
+                        .error(context.getResources().getDrawable(R.drawable.nat_geo_full_en))
+                        .placeholder(context.getResources().getDrawable(R.drawable.nat_geo_full_en))
                         .into(holder.programImageView);
         }
 

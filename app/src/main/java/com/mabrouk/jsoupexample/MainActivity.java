@@ -28,13 +28,15 @@ public class MainActivity extends AppCompatActivity implements GetSliderContentA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        CenterZoomLayoutManager centerZoomLayoutManager= new CenterZoomLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
         sliderRecyclerView = findViewById(R.id.slider_recycler_view);
         sliderRecyclerView.setLayoutManager(new CenterZoomLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         sliderRecyclerView.setHasFixedSize(true);
 
-        sliderRecyclerView2 = findViewById(R.id.slider_recycler_view2);
-        sliderRecyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        sliderRecyclerView2.setHasFixedSize(true);
+//        sliderRecyclerView2 = findViewById(R.id.slider_recycler_view2);
+//        sliderRecyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        sliderRecyclerView2.setHasFixedSize(true);
 
         new GetSliderContentAsync(this).execute();
 
@@ -46,27 +48,10 @@ public class MainActivity extends AppCompatActivity implements GetSliderContentA
         sliderAdapter = new SliderAdapter(imagesUrlList, imagesTitlesList, this);
         sliderRecyclerView.setAdapter(sliderAdapter);
 
-        sliderRecyclerView2.setAdapter(sliderAdapter);
+//        sliderRecyclerView2.setAdapter(sliderAdapter);
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(sliderRecyclerView);
-//        carouselView = findViewById(R.id.carouselView);
-//        carouselView.setPageCount(imagesTitlesList.size());
-//        carouselView.setImageListener(new ImageListener() {
-//            @Override
-//            public void setImageForPosition(int i, ImageView imageView) {
-////                Picasso.get().load(imagesUrlList.get(i))
-//////                        .error(context.getResources().getDrawable(R.drawable.car_placeholder))
-////                        .into(imageView);
-//                imageView.setImageResource(R.drawable.ic_launcher_background);
-//            }
-//        });
-
-//        carouselView.setPageCount(imagesTitlesList.size());
-//        carouselView.setImageListener(imageListener);
-
-
-//        carouselView.setImageListener(imageListener);
     }
 
     public class CenterZoomLayoutManager extends LinearLayoutManager {

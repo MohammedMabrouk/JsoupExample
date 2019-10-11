@@ -4,5 +4,15 @@
     <color name="colorPrimary">#ffd800</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- TODO: change color primary dark -->
+
+    <color name="yellow">#fad706</color>
     <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
+    <color name="gray">#62645c</color>
+    <color name="gray_light">#8AAEA6AF</color>
+    <color name="gray_lightest">#f0f0f0</color>
+
+    <color name="transparent">@android:color/transparent</color>
 </resources>
