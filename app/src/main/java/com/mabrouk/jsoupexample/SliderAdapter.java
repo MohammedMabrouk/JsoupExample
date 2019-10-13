@@ -30,6 +30,11 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SlideViewH
     public SlideViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_slide, parent, false);
+
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = (int) (parent.getWidth() * 0.8);
+        view.setLayoutParams(layoutParams);
+
         return new SliderAdapter.SlideViewHolder(view, context);
     }
 
@@ -37,7 +42,6 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SlideViewH
     public void onBindViewHolder(SlideViewHolder holder, int position) {
         //set title
         holder.programTitleTextView.setText(imagesTitlesList.get(position));
-//        holder.rentalNumber.setText(String.valueOf(rentalsList.get(position).getRANumber()));
 
         if (imagesUrlList.get(position) != null && !imagesUrlList.get(position).isEmpty()) {
                 Picasso.get().load(imagesUrlList.get(position))
@@ -52,7 +56,7 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SlideViewH
 
     @Override
     public int getItemCount() {
-        return imagesTitlesList.size();
+        return imagesTitlesList == null ? 0 : imagesTitlesList.size();
     }
 
     class SlideViewHolder extends RecyclerView.ViewHolder {

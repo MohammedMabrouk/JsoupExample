@@ -11,17 +11,25 @@ import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.View;
 
+import com.mabrouk.model.Program;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GetSliderContentAsync.sliderImagesListener {
 
     SliderAdapter sliderAdapter;
-    RecyclerView sliderRecyclerView, sliderRecyclerView2;
+    static ProgramsListAdapter programsListAdapter;
+    RecyclerView sliderRecyclerView;
+    static RecyclerView todayProgramsRecyclerView ;
+
+
+    static List<Program> programList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +42,14 @@ public class MainActivity extends AppCompatActivity implements GetSliderContentA
         sliderRecyclerView.setLayoutManager(new CenterZoomLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         sliderRecyclerView.setHasFixedSize(true);
 
-//        sliderRecyclerView2 = findViewById(R.id.slider_recycler_view2);
-//        sliderRecyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        sliderRecyclerView2.setHasFixedSize(true);
 
         new GetSliderContentAsync(this).execute();
 
-//        new getAllProgramsAsync().execute();
+        todayProgramsRecyclerView = findViewById(R.id.today_programs_recycler_view);
+        todayProgramsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        todayProgramsRecyclerView.setHasFixedSize(true);
+
+        new getAllProgramsAsync().execute();
     }
 
     @Override
@@ -157,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements GetSliderContentA
 
     private static class getAllProgramsAsync extends AsyncTask<Void, Void, Void> {
 
+
         String pageTitle = "";
         Elements showsContainers;
 
@@ -169,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements GetSliderContentA
         protected Void doInBackground(Void... voids) {
 
             try {
-                Document document = Jsoup.connect("http://www.natgeotv.com/ae/listings/ngc/190819").get();
+                Document document = Jsoup.connect("http://www.natgeotv.com/ae/listings/ngc").get();
 
                 pageTitle = document.title();
 
@@ -207,8 +217,23 @@ public class MainActivity extends AppCompatActivity implements GetSliderContentA
                     Log.v("tagg", el.select("ul > li.ScheduleDayHour").text());
                     // get show link
                     Log.v("tagg", el.select("ul > li.ScheduleDayTitle > a").attr("href"));
+
+                    programList.add(new Program(
+                            el.select("ul > li.ScheduleDayHour").text(),
+                            "PM",
+                            el.select("ul > li.ScheduleDayTitle > a > span:nth-child(1)").text().equals("") ?
+                                    el.select("ul > li.ScheduleDayTitle > .Bold").text() :
+                                    el.select("ul > li.ScheduleDayTitle > a > span:nth-child(1)").text(),
+                            el.select("ul > li.ScheduleDayTitle > a > span:nth-child(3)").text(),
+                            el.select("ul > li.ScheduleDayTitle > a").attr("href")
+                    ));
                 }
             }
+
+            programsListAdapter  = new ProgramsListAdapter(programList);
+            todayProgramsRecyclerView.setAdapter(programsListAdapter);
+//            todayProgramsRecyclerView.setNestedScrollingEnabled(false);
+//            ViewCompat.setNestedScrollingEnabled(todayProgramsRecyclerView, false);
         }
     }
 }

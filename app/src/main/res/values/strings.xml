@@ -2,4 +2,13 @@
     <string name="app_name">JsoupExample</string>
     <string name="main_toolbar_title">عروض ناشونال جيوغرافيك</string>
     <string name="latest_shows">أحدث العروض</string>
+    <string name="today_s_shows">ما يُعرض اليوم</string>
+
+
+    <!--error layout -->
+    <string name="error_image_view">error image view</string>
+    <string name="connection_error">هناك مشكلة في الإتصال</string>
+    <string name="check_connection">تحقق من إتصالك بالإنترنت ثم أعد المحاولة</string>
+    <string name="retry_connection">إعادة المحاولة</string>
+    <string name="slider_image_placeholder">slider image placeholder</string>
 </resources>
